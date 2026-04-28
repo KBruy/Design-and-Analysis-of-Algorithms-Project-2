@@ -43,3 +43,39 @@ vector<int> Dijkstra::runForList(const GraphList& graph, int startVertex) {
 
     return distances;
 }
+
+
+vector<int> Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
+    int vertices = graph.getVertices();
+
+    vector<int> distances(vertices, INT_MAX);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> queue;
+
+    distances[startVertex] = 0;
+    queue.push({0, startVertex});
+
+    while (!queue.empty()) {
+        int currentDistance = queue.top().first;
+        int currentVertex = queue.top().second;
+        queue.pop();
+
+        if (currentDistance > distances[currentVertex]) {
+            continue;
+        }
+
+        for (int neighbor = 0; neighbor < vertices; neighbor++) {
+            int weight = graph.getWeight(currentVertex, neighbor);
+
+            //weight == 0 oznacza brak krawedzi
+            if (weight > 0) {
+                if (distances[currentVertex] != INT_MAX && distances[currentVertex] + weight < distances[neighbor])
+                {
+                    distances[neighbor] = distances[currentVertex] + weight;
+                    queue.push({distances[neighbor], neighbor});
+                }
+
+            }
+        }
+    }
+    return distances;
+}
