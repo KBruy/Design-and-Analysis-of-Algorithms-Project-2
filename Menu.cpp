@@ -1,6 +1,9 @@
 #include "Menu.h"
 #include <iostream>
 
+#include "GraphList.h"
+#include "GraphMatrix.h"
+
 using namespace std;
 
 void Menu::run() {
@@ -11,10 +14,29 @@ void Menu::run() {
         cin >> choice;
 
         switch (choice){
-            case 1:
-            cout << "Demonstracja algorytmu Dijkstry\n";
-            break;
+            case 1: {
+    GraphList graphList(5);
+    GraphMatrix graphMatrix(5);
 
+    graphList.addEdge(0, 1, 4);
+    graphList.addEdge(0, 2, 2);
+    graphList.addEdge(1, 2, 1);
+    graphList.addEdge(1, 3, 5);
+    graphList.addEdge(2, 3, 8);
+    graphList.addEdge(3, 4, 3);
+
+    graphMatrix.addEdge(0, 1, 4);
+    graphMatrix.addEdge(0, 2, 2);
+    graphMatrix.addEdge(1, 2, 1);
+    graphMatrix.addEdge(1, 3, 5);
+    graphMatrix.addEdge(2, 3, 8);
+    graphMatrix.addEdge(3, 4, 3);
+
+    graphList.print();
+    graphMatrix.print();
+
+    break;
+}
             case 2:
             cout << "Badania efektywnosci\n";
             break;

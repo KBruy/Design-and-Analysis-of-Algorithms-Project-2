@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-o",
+                "program",
+                "main.cpp",
+                "Dijkstra.cpp",
+                "GraphList.cpp",
+                "GraphMatrix.cpp",
+                "Menu.cpp",
+                "Research.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "osascript",
+            "args": [
+                "-e",
+                "tell application \"Terminal\" to do script \"cd ${fileDirname} && ./program\""
+            ],
+            "dependsOn": "Build",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent"
+            },
+            "isBackground": false
+        }
+    ]
+}
