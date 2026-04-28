@@ -4,7 +4,7 @@
 #include "GraphMatrix.h"
 #include "Dijkstra.h"
 #include "GraphGenerator.h"
-
+#include "Research.h"
 
 using namespace std;
 
@@ -48,9 +48,11 @@ void Menu::run() {
         break;
     }
 
-            case 2:
-            cout << "Badania efektywnosci\n";
-            break;
+            case 2: {
+                Research research;
+                research.run();
+                break;
+            }
 
             case 0:
             cout << "Koniec programu\n";
