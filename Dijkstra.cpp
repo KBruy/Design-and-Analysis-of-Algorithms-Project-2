@@ -64,18 +64,33 @@ vector<int> Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
         }
 
         for (int neighbor = 0; neighbor < vertices; neighbor++) {
-            int weight = graph.getWeight(currentVertex, neighbor);
+        int weight = graph.getWeight(currentVertex, neighbor);
 
-            //weight == 0 oznacza brak krawedzi
             if (weight > 0) {
-                if (distances[currentVertex] != INT_MAX && distances[currentVertex] + weight < distances[neighbor])
-                {
+                if (distances[currentVertex] != INT_MAX &&
+                    distances[currentVertex] + weight < distances[neighbor]) {
+
                     distances[neighbor] = distances[currentVertex] + weight;
                     queue.push({distances[neighbor], neighbor});
-                }
-
-            }
         }
     }
+}
+    }
     return distances;
+}
+
+void Dijkstra::printDistances(const vector<int>& distances, int startVertex) {
+    cout << "\nNajkrotsze odleglosci od wierzcholka" << startVertex << ":\n";
+
+    for (int i = 0; i < distances.size(); i++) {
+        cout << startVertex << " -> " << i << ": ";
+
+        if (distances[i] == INT_MAX) {
+            cout << "brak sciezki";
+        } else {
+            cout << distances[i];
+        }
+
+        cout << endl;
+    }
 }
