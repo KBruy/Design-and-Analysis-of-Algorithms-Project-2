@@ -1,8 +1,9 @@
-#include "Menu.h"
 #include <iostream>
-
+#include "Menu.h"
 #include "GraphList.h"
 #include "GraphMatrix.h"
+#include "Dijkstra.h"
+
 
 using namespace std;
 
@@ -35,8 +36,19 @@ void Menu::run() {
     graphList.print();
     graphMatrix.print();
 
+    int startVertex = 0;
+
+    cout << "\nDijkstra dla listy sasiedztwa:\n";
+    vector<int> distancesList = Dijkstra::runForList(graphList, startVertex);
+    Dijkstra::printDistances(distancesList, startVertex);
+
+    cout << "\nDijkstra dla macierzy sasiedztwa:\n";
+    vector<int> distancesMatrix = Dijkstra::runForMatrix(graphMatrix, startVertex);
+    Dijkstra::printDistances(distancesMatrix, startVertex);
+
     break;
 }
+
             case 2:
             cout << "Badania efektywnosci\n";
             break;

@@ -39,9 +39,9 @@ void GraphMatrix::addEdge(int from, int to, int weight) {
     }
 
     int GraphMatrix::getWeight(int from, int to) const {
-        if (from < 0 || from >= vertices || to < 0 || to >- vertices) {
-            return 0;
-        }
-
-        return matrix[from][to];
+    if (from < 0 || from >= vertices || to < 0 || to >= vertices) {
+        return 0;
     }
+
+    return matrix[from][to];
+}
