@@ -4,16 +4,10 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "g++",
+            "command": "bash",
             "args": [
-                "-o",
-                "program",
-                "main.cpp",
-                "Dijkstra.cpp",
-                "GraphList.cpp",
-                "GraphMatrix.cpp",
-                "Menu.cpp",
-                "Research.cpp"
+                "-c",
+                "g++ -o program *.cpp"
             ],
             "group": {
                 "kind": "build",
