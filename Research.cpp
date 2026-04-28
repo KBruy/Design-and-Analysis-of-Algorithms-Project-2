@@ -42,3 +42,36 @@ void Research::run() {
 
     cout << "\nBadania zakonczone. Wyniki zapisano do pliku results.csv\n";
 }
+
+
+long long Research::measureList(int vertices, double density, int instanceCount) {
+    long long totalTime = 0;
+    int baseSeed = 12345;
+    int startVertex = 0;
+
+    for (int i = 0; i < instanceCount; i++) {
+        int seed = baseSeed + vertices * 10000 + static_cast<int>(density * 1000) + i;
+
+        GraphList graphList(vertices);
+        GraphMatrix graphMatrix(vertices);
+
+        GraphGenerator::generateRandomGraph(
+            graphList,
+            graphMatrix,
+            vertices,
+            density,
+            seed
+        );
+
+        auto start = chrono::high_resolution_clock::now();
+
+        vector<int> distances = Dijkstra::runForList(graphList, startVertex);
+
+        auto end = chrono::high_resolution_clock::now();
+
+        long long duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        totalTime += duration;
+    }
+
+    return totalTime / instanceCount;
+}
