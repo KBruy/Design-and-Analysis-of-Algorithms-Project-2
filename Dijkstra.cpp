@@ -82,7 +82,7 @@ vector<int> Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
 void Dijkstra::printDistances(const vector<int>& distances, int startVertex) {
     cout << "\nNajkrotsze odleglosci od wierzcholka" << startVertex << ":\n";
 
-    for (int i = 0; i < distances.size(); i++) {
+    for (size_t i = 0; i < distances.size(); i++){
         cout << startVertex << " -> " << i << ": ";
 
         if (distances[i] == INT_MAX) {

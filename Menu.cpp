@@ -17,7 +17,6 @@ void Menu::run() {
 
         switch (choice){
             case 1: {
-                cout<<"dupa";
         int vertices = 6;
         double density = 0.5;
         int seed = 12345;
