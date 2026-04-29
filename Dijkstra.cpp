@@ -2,15 +2,16 @@
 #include <iostream>
 #include <queue>
 #include <climits>
+#include <algorithm>
 
 using namespace std;
 
-vector<int> Dijkstra::runForList(const GraphList& graph, int startVertex) {
+DijkstraResult Dijkstra::runForList(const GraphList& graph, int startVertex) {
     int vertices = graph.getVertices();
 
     vector<int> distances(vertices, INT_MAX);
+    vector<int> previous(vertices, -1);
 
-    // para: (odleglosc, wierzcholek)
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> queue;
 
     distances[startVertex] = 0;
@@ -21,7 +22,6 @@ vector<int> Dijkstra::runForList(const GraphList& graph, int startVertex) {
         int currentVertex = queue.top().second;
         queue.pop();
 
-        // Pomijamy stare, nieaktualne wpisy z kolejki
         if (currentDistance > distances[currentVertex]) {
             continue;
         }
@@ -36,19 +36,22 @@ vector<int> Dijkstra::runForList(const GraphList& graph, int startVertex) {
                 distances[currentVertex] + weight < distances[neighbor]) {
 
                 distances[neighbor] = distances[currentVertex] + weight;
+                previous[neighbor] = currentVertex;
+
                 queue.push({distances[neighbor], neighbor});
             }
         }
     }
 
-    return distances;
+    return {distances, previous};
 }
 
-
-vector<int> Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
+DijkstraResult Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
     int vertices = graph.getVertices();
 
     vector<int> distances(vertices, INT_MAX);
+    vector<int> previous(vertices, -1);
+
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> queue;
 
     distances[startVertex] = 0;
@@ -64,33 +67,76 @@ vector<int> Dijkstra::runForMatrix(const GraphMatrix& graph, int startVertex) {
         }
 
         for (int neighbor = 0; neighbor < vertices; neighbor++) {
-        int weight = graph.getWeight(currentVertex, neighbor);
+            int weight = graph.getWeight(currentVertex, neighbor);
 
             if (weight > 0) {
                 if (distances[currentVertex] != INT_MAX &&
                     distances[currentVertex] + weight < distances[neighbor]) {
 
                     distances[neighbor] = distances[currentVertex] + weight;
+                    previous[neighbor] = currentVertex;
+
                     queue.push({distances[neighbor], neighbor});
+                }
+            }
         }
     }
-}
-    }
-    return distances;
+
+    return {distances, previous};
 }
 
-void Dijkstra::printDistances(const vector<int>& distances, int startVertex) {
-    cout << "\nNajkrotsze odleglosci od wierzcholka" << startVertex << ":\n";
+void Dijkstra::printDistances(const DijkstraResult& result, int startVertex) {
+    cout << "\nNajkrotsze odleglosci od wierzcholka " << startVertex << ":\n";
 
-    for (size_t i = 0; i < distances.size(); i++){
+    for (int i = 0; i < static_cast<int>(result.distances.size()); i++) {
         cout << startVertex << " -> " << i << ": ";
 
-        if (distances[i] == INT_MAX) {
+        if (result.distances[i] == INT_MAX) {
             cout << "brak sciezki";
         } else {
-            cout << distances[i];
+            cout << result.distances[i];
         }
 
         cout << endl;
     }
+}
+
+void Dijkstra::printPath(const DijkstraResult& result, int startVertex, int endVertex) {
+    if (endVertex < 0 || endVertex >= static_cast<int>(result.distances.size())) {
+        cout << "Niepoprawny wierzcholek koncowy.\n";
+        return;
+    }
+
+    if (result.distances[endVertex] == INT_MAX) {
+        cout << "Brak sciezki z " << startVertex << " do " << endVertex << ".\n";
+        return;
+    }
+
+    vector<int> path;
+
+    int current = endVertex;
+
+    while (current != -1) {
+        path.push_back(current);
+
+        if (current == startVertex) {
+            break;
+        }
+
+        current = result.previous[current];
+    }
+
+    reverse(path.begin(), path.end());
+
+    cout << "Sciezka " << startVertex << " -> " << endVertex << ": ";
+
+    for (int i = 0; i < static_cast<int>(path.size()); i++) {
+        cout << path[i];
+
+        if (i != static_cast<int>(path.size()) - 1) {
+            cout << " -> ";
+        }
+    }
+
+    cout << ", koszt = " << result.distances[endVertex] << endl;
 }

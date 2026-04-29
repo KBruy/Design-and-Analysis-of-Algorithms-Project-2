@@ -5,13 +5,18 @@
 #include "GraphMatrix.h"
 #include <vector>
 
+struct DijkstraResult {
+    std::vector<int> distances;
+    std::vector<int> previous;
+};
+
 class Dijkstra {
-    public:
-        static std::vector<int> runForList(const GraphList& graph, int startVertex);
-        static std::vector<int> runForMatrix(const GraphMatrix& graph, int startVertex);
+public:
+    static DijkstraResult runForList(const GraphList& graph, int startVertex);
+    static DijkstraResult runForMatrix(const GraphMatrix& graph, int startVertex);
 
-        static void printDistances(const std::vector<int>& distances, int startVertex);
-
+    static void printDistances(const DijkstraResult& result, int startVertex);
+    static void printPath(const DijkstraResult& result, int startVertex, int endVertex);
 };
 
 #endif
