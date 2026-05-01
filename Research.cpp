@@ -69,7 +69,7 @@ long long Research::measureList(int vertices, double density, int instanceCount)
 
         auto end = chrono::high_resolution_clock::now();
 
-        long long duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        long long duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         totalTime += duration;
     }
 
@@ -101,7 +101,7 @@ long long Research::measureMatrix(int vertices, double density, int instanceCoun
 
         auto end = chrono::high_resolution_clock::now();
 
-        long long duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        long long duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         totalTime += duration;
     }
 
