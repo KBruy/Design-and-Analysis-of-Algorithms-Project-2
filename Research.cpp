@@ -65,11 +65,11 @@ long long Research::measureList(int vertices, double density, int instanceCount)
 
         auto start = chrono::high_resolution_clock::now();
 
-        vector<int> distances = Dijkstra::runForList(graphList, startVertex);
+       DijkstraResult result = Dijkstra::runForList(graphList, startVertex);
 
         auto end = chrono::high_resolution_clock::now();
 
-        long long duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        long long duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         totalTime += duration;
     }
 
@@ -97,11 +97,11 @@ long long Research::measureMatrix(int vertices, double density, int instanceCoun
 
         auto start = chrono::high_resolution_clock::now();
 
-        vector<int> distances = Dijkstra::runForMatrix(graphMatrix, startVertex);
+        DijkstraResult result = Dijkstra::runForMatrix(graphMatrix, startVertex);
 
         auto end = chrono::high_resolution_clock::now();
 
-        long long duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        long long duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         totalTime += duration;
     }
 

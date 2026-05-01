@@ -17,35 +17,51 @@ void Menu::run() {
 
         switch (choice){
             case 1: {
-        int vertices = 6;
-        double density = 0.5;
-        int seed = 12345;
-        int startVertex = 0;
+            int vertices = 6;
+            double density = 0.5;
+            int seed = 12345;
+            int startVertex = 0;
+            int endVertex = vertices - 1;
 
-        GraphList graphList(vertices);
-        GraphMatrix graphMatrix(vertices);
+            GraphList graphList(vertices);
+            GraphMatrix graphMatrix(vertices);
 
-        GraphGenerator::generateRandomGraph(
-            graphList,
-            graphMatrix,
-            vertices,
-            density,
-            seed
-        );
+            GraphGenerator::generateRandomGraph(
+                graphList,
+                graphMatrix,
+                vertices,
+                density,
+                seed
+            );
 
-        graphList.print();
-        graphMatrix.print();
+            cout << "\nDemonstracja algorytmu Dijkstry\n";
+            cout << "Liczba wierzcholkow: " << vertices << endl;
+            cout << "Gestosc: " << density * 100 << "%\n";
+            cout << "Seed: " << seed << endl;
+            cout << "Wierzcholek startowy: " << startVertex << endl;
+            cout << "Przykladowy wierzcholek koncowy: " << endVertex << endl;
 
-        cout << "\nDijkstra dla listy sasiedztwa:\n";
-        vector<int> distancesList = Dijkstra::runForList(graphList, startVertex);
-        Dijkstra::printDistances(distancesList, startVertex);
+            graphList.print();
+            graphMatrix.print();
 
-        cout << "\nDijkstra dla macierzy sasiedztwa:\n";
-        vector<int> distancesMatrix = Dijkstra::runForMatrix(graphMatrix, startVertex);
-        Dijkstra::printDistances(distancesMatrix, startVertex);
+            cout << "\nDijkstra dla listy sasiedztwa:\n";
+            DijkstraResult resultList = Dijkstra::runForList(graphList, startVertex);
+            Dijkstra::printDistances(resultList, startVertex);
+            Dijkstra::printPath(resultList, startVertex, endVertex);
 
-        break;
-    }
+            cout << "\nDijkstra dla macierzy sasiedztwa:\n";
+            DijkstraResult resultMatrix = Dijkstra::runForMatrix(graphMatrix, startVertex);
+            Dijkstra::printDistances(resultMatrix, startVertex);
+            Dijkstra::printPath(resultMatrix, startVertex, endVertex);
+
+            if (resultList.distances == resultMatrix.distances) {
+                cout << "\nWyniki dla listy i macierzy sa zgodne.\n";
+            } else {
+                cout << "\nUWAGA: Wyniki dla listy i macierzy sa rozne.\n";
+            }
+
+            break;
+        }
 
             case 2: {
                 Research research;
